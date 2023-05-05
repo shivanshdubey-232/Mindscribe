@@ -16,7 +16,6 @@ const NoteState = (props) => {
       }
     });
     const json = await response.json()
-    console.log(json)
     setNotes(json)
   }
 
@@ -32,17 +31,8 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({title, description, tag}),
     });
-    const json = await response.json();
     //add logic
-    const note = {
-      "_id": "644e69062411698d688ab66",
-      "user": "644b68e8e6b4c1665d251b20",
-      "title": title,
-      "description": description,
-      "tag": tag,
-      "date": "2023-04-30T13:11:34.268Z",
-      "__v": 0
-    } 
+    const note = await response.json()
     setNotes(notes.concat(note));
   }
 
@@ -56,9 +46,7 @@ const NoteState = (props) => {
         "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ0YjY4ZThlNmI0YzE2NjVkMjUxYjIwIn0sImlhdCI6MTY4MzA0OTgxN30.iL6JPrMYuy8ok0rmcbEmfLl0VaVouzA3UoUQeWlKA_I"
       }
     });    
-    const json = await response.json();
-    console.log(json);
-    console.log("I am deleting note with id = ", id);
+    const json = await response.json(); 
     const newNotes = notes.filter((note) => {return note._id !== id});
     setNotes(newNotes);
   }
@@ -73,17 +61,18 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({title, description, tag}),
     });
-    const json = await response.json();
     //api
-    for(let index = 0; index < notes.length; index ++){
-      const element = notes[index];
+    let updatedNotes = JSON.parse(JSON.stringify(notes))
+    for(let index = 0; index < updatedNotes.length; index ++){
+      const element = updatedNotes[index];
       if(element._id === id){
-        element.title = title;
-        element.description = description;
-        element.tag = tag;
+        updatedNotes[index].title = title;
+        updatedNotes[index].description = description;
+        updatedNotes[index].tag = tag;
         break;
       }
     }
+    setNotes(updatedNotes);
   }
   return (
     <NoteContext.Provider value={{notes, addNote, deleteNote, editNote, getNotes}}>

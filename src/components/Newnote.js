@@ -13,6 +13,7 @@ export default function Newnote() {
   const handleClick = (e) => {
     e.preventDefault();
     addNote(note.title, note.description, note.tag);
+    setNote({title: "", description: "", tag: ""})
   }
   const onChange = (e) => {
     setNote({...note, [e.target.name]: e.target.value})
@@ -26,18 +27,20 @@ export default function Newnote() {
       noValidate
       autoComplete="off"
     >
-      <TextField id="standard-basic" label="Note Title" name="title" onChange={onChange}  variant="standard" />
-      <TextField id="standard-basic" label="Tag" name="tag" onChange={onChange} variant="standard" />
+      <TextField id="standard-basic" label="Note Title" name="title" onChange={onChange} value={note.title}  variant="standard" required/>
+      <TextField id="standard-basic" label="Tag" name="tag" onChange={onChange} value={note.tag} variant="standard" required/>
       <br />
       <TextField
   placeholder="Type your note..."
       name="description"
       multiline
       rows={3}
+      value={note.description}
       onChange={onChange}
+      required
     />
       <br />
-      <Button variant="outlined" type="submit" onClick={handleClick}>Submit</Button>
+      <Button disabled={note.title.length === 0 || note.description.length === 0} variant="outlined" type="submit" onClick={handleClick}>Submit</Button>
     </Box>
   );
 }

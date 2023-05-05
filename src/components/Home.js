@@ -18,7 +18,8 @@ const Home = () => {
         <Newnote />
       </div>
       <h1 style= {{margin:'1em'}}>Your notes</h1>
-      <div style = {{maxWidth : '900px', margin: 'auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly'}}>
+      <h2>{notes.length === 0 && 'No notes to display :('}</h2>
+      <div style = {{maxWidth : '900px', margin: 'auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly'}}> 
         {notes.map((note)=>{
           return <NoteItem note = {note}/>
         })}

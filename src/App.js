@@ -10,6 +10,8 @@ import Home from './components/Home';
 import NoteState from './context/notes/NoteState';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import Login from './components/Login';
+import Signup from './components/Signup';
 
 function App() {
   const [mode, setMode] = useState("light");
@@ -35,6 +37,8 @@ function App() {
           <Routes>
               <Route exact path="/home" element={<Home/>}/>
               <Route exact path="/about" element={<About/>}/>
+              <Route exact path="/login" element={<Login />}/>
+              <Route exact path="/signup" element={<Signup/>}/>
           </Routes>
         </div>
       </ThemeProvider>

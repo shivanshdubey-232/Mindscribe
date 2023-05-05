@@ -33,6 +33,7 @@ export default function NoteButtons(props) {
   const handleClick = (e) => {
     e.preventDefault();
     editNote(note._id, updatedNote.title, updatedNote.description, updatedNote.tag);
+    handleClose();
   }
   const onChange = (e) => {
     setNote({...updatedNote, [e.target.name]: e.target.value})
@@ -52,8 +53,8 @@ export default function NoteButtons(props) {
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Update {note.title}
             </Typography>
-            <TextField  sx={{m:2}} id="standard-basic" label="Note Title" name="title" value={updatedNote.title} onChange={onChange}  variant="standard" />
-            <TextField  sx={{m:2}} id="standard-basic" label="Tag" name="tag" value={updatedNote.tag} onChange={onChange} variant="standard" />
+            <TextField  sx={{m:2}} id="standard-basic" label="Note Title" name="title" value={updatedNote.title} onChange={onChange}  variant="standard" required/>
+            <TextField  sx={{m:2}} id="standard-basic" label="Tag" name="tag" value={updatedNote.tag} onChange={onChange} variant="standard" required/>
             <br />
             <TextField sx={{m:2}} 
         placeholder="Type your note..."
@@ -62,9 +63,11 @@ export default function NoteButtons(props) {
             rows={3}
             value={updatedNote.description}
             onChange={onChange}
+            required  
           />
           <br />
-              <Button sx={{m:2}} variant="outlined" type="submit" onClick={handleClick} >Update Note</Button>
+            <Button disabled={updatedNote.title.length === 0 || updatedNote.description.length === 0} sx={{m:2}} variant="outlined" type="submit" onClick={handleClick} >Update Note</Button>
+            <Button sx={{m:2}} variant="outlined" onClick={handleClose} >Close</Button>
           </Box>
         </div>
       </Modal>

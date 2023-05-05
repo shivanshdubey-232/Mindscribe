@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import {Link, useLocation} from 'react-router-dom';
 import {useEffect} from 'react';
 const pages = ['Home', 'About', 'Code'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Sign up', 'Log in', 'Log out'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -156,7 +156,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <Link to={`/${setting.toLowerCase()}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/${setting.toLowerCase().replace(/\s/g, "")}`} style={{ textDecoration: 'none' }}>
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">
                       {setting}

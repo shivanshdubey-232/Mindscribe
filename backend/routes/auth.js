@@ -16,15 +16,18 @@ router.post('/createuser', [
   ], 
   async (req, res)=> {
     // If there are errors, return Bad request and the errors
+    let success = false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      success = false;
       return res.status(400).json({ errors: errors.array() });
     }
     // Check whether the user with this email exists already
     try {
-      let user = await User.findOne({ email: req.body.email });
+      let user = await User.findOne({success, email: req.body.email });
       if (user) {
-        return res.status(400).json({ error: "Sorry a user with this email already exists" })
+        success = false;
+        return res.status(400).json({success, error: "Sorry a user with this email already exists" })
       }
       // Create a new user
       const salt = await brypt.genSalt(10);
@@ -34,17 +37,17 @@ router.post('/createuser', [
         password: secPass,
         email: req.body.email,
       })
-      
+      success = true;
       const data = {
         user: {
           id: user.id
         }
       }
       const authToken = jwt.sign(data, JWT_SECRET);
-      res.json({authToken});
+      res.json({success, authToken});
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("Some Error occured");
+      res.status(500).json({success, error: "Some Error occured"});
     }
   })
 
@@ -54,6 +57,7 @@ router.post('/login', [
   body('password', 'Password cannot be blank').exists(),
   ],
   async (req, res)=> {
+    let success = false;
     // If there are errors, return Bad request and the errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -64,11 +68,13 @@ router.post('/login', [
     try {
       let user = await User.findOne({email});
       if (!user) {
-        return res.status(400).json({error: "Please try to login with correct credentials"});
+        success = false;
+        return res.status(400).json({success, error: "Please try to login with correct credentials"});
       }
       const passwordCompare = await brypt.compare(password, user.password);
       if (!passwordCompare) {
-        return res.status(400).json({error: "Please try to login with correct credentials"});
+        success = false;
+        return res.status(400).json({ success, error: "Please try to login with correct credentials"});
       }
       const data = {
         user: {
@@ -76,7 +82,8 @@ router.post('/login', [
         }
       }
       const authToken = jwt.sign(data, JWT_SECRET);
-      res.json({authToken});
+      success = true;
+      res.json({success, authToken});
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Internal Server Error");
