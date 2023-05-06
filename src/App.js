@@ -35,13 +35,21 @@ function App() {
       }),
     [mode]
   );
+  let settingsInit = [];
+  if(localStorage.getItem('token')){
+    settingsInit= ['Logout'];
+  }
+  else{
+    settingsInit = ['Login', 'Signup'];
+  }
+  const [settings, setSettings] = useState(settingsInit);
 
   return (
     <NoteState>
       <ThemeProvider theme={theme}>
       <CssBaseline />
         <div className="App">
-          <Navbar/>
+          <Navbar setSettings={setSettings} settings={settings}/>
           <IconButton sx={{ width: '2em', position: 'fixed', bottom: '1em', right: '1em' }} onClick={() => setMode(mode === "light" ? "dark" : "light")} color="inherit">
             {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
@@ -49,8 +57,8 @@ function App() {
               <Route exact path="/" element={<Home showAlert={showAlert} alert={alert}/>}/>
               <Route exact path="/home" element={<Home showAlert={showAlert} alert={alert}/>}/>
               <Route exact path="/about" element={<About/>}/>
-              <Route exact path="/login" element={<Login showAlert={showAlert} alert={alert}/>}/>
-              <Route exact path="/signup" element={<Signup showAlert={showAlert} alert={alert}/>}/>
+              <Route exact path="/login" element={<Login showAlert={showAlert} alert={alert} setSettings={setSettings} />}/>
+              <Route exact path="/signup" element={<Signup showAlert={showAlert} alert={alert} setSettings={setSettings} />}/>
           </Routes>
         </div>
       </ThemeProvider>

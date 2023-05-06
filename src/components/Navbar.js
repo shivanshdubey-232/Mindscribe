@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
@@ -15,28 +14,22 @@ import AdbIcon from '@mui/icons-material/Adb';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
 const pages = ['Home', 'About', 'Code'];
-let settings = [];
-if(localStorage.getItem('token')){
-  settings= ['Logout'];
-}
-else{
-  settings = ['Login', 'Signup'];
-}
-function ResponsiveAppBar() {
+
+function ResponsiveAppBar(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  const settings = props.settings;
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
+  
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
+  
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -44,10 +37,10 @@ function ResponsiveAppBar() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login')
+    props.setSettings(['Login', 'Signup']);
   }
   let location = useLocation();
   useEffect(() => {
-    console.log(location);
   }, [location])
   return (
     <AppBar position="static">
@@ -71,7 +64,6 @@ function ResponsiveAppBar() {
           >
             MINDSCRIBE
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -161,7 +153,8 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
+                <img src="user.jpeg" alt="user" width="40px" style={{borderRadius: "50%"}}/>
               </IconButton>
             </Tooltip>
             <Menu

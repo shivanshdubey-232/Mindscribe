@@ -25,6 +25,7 @@ export default function Newnote(props) {
       sx={{
         '& .MuiTextField-root': { m: 1, width: '25ch' },
       }}
+      style={{boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", padding:"1em"}}
       noValidate
       autoComplete="off"
     >
@@ -41,7 +42,7 @@ export default function Newnote(props) {
       required
     />
       <br />
-      <Button disabled={note.title.length === 0 || note.description.length === 0} variant="outlined" type="submit" onClick={handleClick}>Submit</Button>
+      <Button disabled={note.title.length === 0 || note.description.length === 0} variant="outlined" sx={{m:2}} type="submit" onClick={handleClick}>Submit</Button>
     </Box>
   );
 }

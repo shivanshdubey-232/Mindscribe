@@ -4,6 +4,7 @@ import NoteItem from './NoteItem';
 import Newnote from './Newnote';
 import BasicAlert from './BasicAlerts';
 import { useNavigate } from 'react-router-dom';
+
 const Home = (props) => {
   const context = useContext(noteContext);
   const {notes, getNotes} = context;
@@ -16,7 +17,8 @@ const Home = (props) => {
       navigate('/login');
       props.showAlert("Please login to continue", "warning");
     }
-  }, [])
+  })
+
   return (
     <div>
       <BasicAlert alert={props.alert}/>
@@ -26,7 +28,7 @@ const Home = (props) => {
       </div>
       <h1 style= {{margin:'1em'}}>Your notes</h1>
       <h2>{notes.length === 0 && 'No notes to display :('}</h2>
-      <div style = {{maxWidth : '900px', margin: 'auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly'}}> 
+      <div style = {{maxWidth : '900px', margin: 'auto', marginBottom: '2em', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly', boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", padding:"1em"}}> 
         {notes.map((note)=>{
           return <NoteItem note = {note} showAlert={props.showAlert}/>
         })}

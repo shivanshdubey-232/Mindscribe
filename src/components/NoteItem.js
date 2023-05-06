@@ -9,8 +9,8 @@ const NoteItem = (props) => {
   const {note} = props;
   return (
     <Box sx={{ m:'1em', width: {
-      lg: '260px',
-      md: '240px',
+      lg: '250px',
+      md: '200px',
       xs: '150px'
     }}}>
         <Card variant="outlined">

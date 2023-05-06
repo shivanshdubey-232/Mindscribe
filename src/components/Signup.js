@@ -21,7 +21,6 @@ export default function SignUp(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
     const response = await fetch("http://localhost:5000/api/auth/createuser", {
             method: 'POST',
             headers: {
@@ -30,11 +29,11 @@ export default function SignUp(props) {
             body: JSON.stringify({name: credentials.name, email: credentials.email, password: credentials.password})
     });
     const json = await response.json();
-    console.log(json);
     if(json.success){
       // Save the auth token and redirect
       localStorage.setItem('token', json.authToken);
       navigate('/home');// Redirect to home page
+      props.setSettings(['Logout']);
       props.showAlert("Account created successfully", "success");
     }
     else{
@@ -56,6 +55,7 @@ export default function SignUp(props) {
             flexDirection: 'column',
             alignItems: 'center',
           }}
+          style={{boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", padding:"1em"}}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />

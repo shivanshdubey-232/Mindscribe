@@ -21,7 +21,6 @@ export default function LogIn(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
     const response = await fetch("http://localhost:5000/api/auth/login", {
             method: 'POST',
             headers: {
@@ -34,6 +33,7 @@ export default function LogIn(props) {
       // Save the auth token and redirect
       localStorage.setItem('token', json.authToken);
       navigate('/home');// Redirect to home page
+      props.setSettings(['Logout']);
       props.showAlert("Logged in successfully", "success");
     }
     else{
@@ -45,7 +45,7 @@ export default function LogIn(props) {
     setCredentials({...credentials, [e.target.name]: e.target.value})
   }
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" >
         <CssBaseline />
         <Box
           sx={{
@@ -54,6 +54,7 @@ export default function LogIn(props) {
             flexDirection: 'column',
             alignItems: 'center',
           }}
+          style={{boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", padding:"1em"}}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
