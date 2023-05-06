@@ -12,11 +12,16 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import {Link, useLocation} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
 const pages = ['Home', 'About', 'Code'];
-const settings = ['Sign up', 'Log in', 'Log out'];
-
+let settings = [];
+if(localStorage.getItem('token')){
+  settings= ['Logout'];
+}
+else{
+  settings = ['Login', 'Signup'];
+}
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -35,6 +40,11 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  let navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login')
+  }
   let location = useLocation();
   useEffect(() => {
     console.log(location);
@@ -91,7 +101,12 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {pages.map((page) => ((page === 'Code')?             
+               <MenuItem key={page} onClick={handleCloseNavMenu}>
+                 <Link to={`https://github.com/shivanshdubey-232/Mindscribe`} style={{ textDecoration: 'none' }}>
+                   <Typography textAlign="center" >{page}</Typography>
+                  </Link>
+                </MenuItem> :
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                  <Link to={`/${page.toLowerCase()}`} style={{ textDecoration: 'none' }}>
                    <Typography textAlign="center" >{page}</Typography>
@@ -120,7 +135,17 @@ function ResponsiveAppBar() {
             MINDSCRIBE
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {pages.map((page) => ((page === 'Code')?             
+              <Link to={`https://github.com/shivanshdubey-232/Mindscribe`} style={{ textDecoration: 'none' }}>
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{color: `${location.pathname === `/${page.toLowerCase()}`? '#edde40' : 'white'}`}}
+                >
+                   <Typography textAlign="center" >{page}</Typography>
+                </Button>
+              </Link> :
+         
               <Link to={`/${page.toLowerCase()}`} style={{ textDecoration: 'none', color: 'white' }}>
                 <Button
                   key={page}
@@ -155,15 +180,25 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <Link to={`/${setting.toLowerCase().replace(/\s/g, "")}`} style={{ textDecoration: 'none' }}>
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">
-                      {setting}
-                    </Typography>
-                  </MenuItem>
-                </Link>
-              ))}
+              {
+                (settings.length === 2)?
+                  settings.map((setting) => (
+                  <Link to={`/${setting.toLowerCase().replace(/\s/g, "")}`} style={{ textDecoration: 'none' }}>
+                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">
+                        {setting}
+                      </Typography>
+                    </MenuItem>
+                  </Link>
+                )):
+                <MenuItem key={settings[0]} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">
+                    <Button onClick={handleLogout}>
+                      {settings[0]}
+                    </Button>
+                  </Typography>
+                </MenuItem>
+              }
             </Menu>
           </Box>
         </Toolbar>

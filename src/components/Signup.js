@@ -13,8 +13,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
+import BasicAlert from './BasicAlerts';
 
-export default function SignUp() {
+export default function SignUp(props) {
   const [credentials, setCredentials] = useState({name: "", email: "", password: "", cpassword: ""}) 
   let navigate = useNavigate();
 
@@ -32,17 +33,13 @@ export default function SignUp() {
     console.log(json);
     if(json.success){
       // Save the auth token and redirect
-      localStorage.setItem('token', json.authtoken);
+      localStorage.setItem('token', json.authToken);
       navigate('/home');// Redirect to home page
+      props.showAlert("Account created successfully", "success");
     }
     else{
-      alert("Invalid Credentials");
+      props.showAlert("Invalid Credentials", "error");
     }
-    console.log({
-      name: data.get('name'),
-      email: data.get('email'),
-      password: data.get('password'),
-    });
   };
 
   const onChange = (e) => {
@@ -66,6 +63,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
+          <BasicAlert alert={props.alert}/>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>

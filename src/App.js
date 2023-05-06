@@ -15,6 +15,16 @@ import Signup from './components/Signup';
 
 function App() {
   const [mode, setMode] = useState("light");
+  const [alert, setAlert] = useState(null);
+  const showAlert = (message, type) => {
+    setAlert({
+      msg: message,
+      type: type
+    })
+    setTimeout(() => {
+      setAlert(null);
+    }, 4000);
+  }
 
   const theme = useMemo(
     () =>
@@ -25,6 +35,7 @@ function App() {
       }),
     [mode]
   );
+
   return (
     <NoteState>
       <ThemeProvider theme={theme}>
@@ -35,10 +46,11 @@ function App() {
             {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
           <Routes>
-              <Route exact path="/home" element={<Home/>}/>
+              <Route exact path="/" element={<Home showAlert={showAlert} alert={alert}/>}/>
+              <Route exact path="/home" element={<Home showAlert={showAlert} alert={alert}/>}/>
               <Route exact path="/about" element={<About/>}/>
-              <Route exact path="/login" element={<Login />}/>
-              <Route exact path="/signup" element={<Signup/>}/>
+              <Route exact path="/login" element={<Login showAlert={showAlert} alert={alert}/>}/>
+              <Route exact path="/signup" element={<Signup showAlert={showAlert} alert={alert}/>}/>
           </Routes>
         </div>
       </ThemeProvider>

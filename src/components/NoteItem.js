@@ -26,7 +26,7 @@ const NoteItem = (props) => {
                 {note.description}
                 <br />
                 
-                <NoteButtons note = {note}/>
+                <NoteButtons note = {note} showAlert={props.showAlert}/>
                
               </Typography>
             </CardContent>

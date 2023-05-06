@@ -34,13 +34,14 @@ export default function NoteButtons(props) {
     e.preventDefault();
     editNote(note._id, updatedNote.title, updatedNote.description, updatedNote.tag);
     handleClose();
+    props.showAlert("Updated note successfully", "success");
   }
   const onChange = (e) => {
     setNote({...updatedNote, [e.target.name]: e.target.value})
   }
   return (
     <div>
-      <i class="fa-sharp fa-solid fa-trash" onClick={() => deleteNote(note._id)} style={iconStyle}></i>
+      <i class="fa-sharp fa-solid fa-trash" onClick={() => {deleteNote(note._id); props.showAlert("Deleted note successfully", "success")}} style={iconStyle}></i>
       <Button onClick={handleOpen}> <i class="fa-sharp fa-solid fa-pen-to-square" style={iconStyle}></i></Button>
       <Modal
         open={open}

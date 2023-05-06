@@ -6,13 +6,14 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 
-export default function Newnote() {
+export default function Newnote(props) {
   const context = useContext(noteContext);
   const {addNote} = context;
   const  [note, setNote] = useState({title: "", description: "", tag: ""});
   const handleClick = (e) => {
     e.preventDefault();
     addNote(note.title, note.description, note.tag);
+    props.showAlert("Added note successfully", "success");
     setNote({title: "", description: "", tag: ""})
   }
   const onChange = (e) => {

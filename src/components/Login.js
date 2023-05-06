@@ -13,9 +13,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
+import BasicAlert from './BasicAlerts';
 
-
-export default function LogIn() {
+export default function LogIn(props) {
   const [credentials, setCredentials] = useState({email: "", password: ""}) 
   let navigate = useNavigate();
 
@@ -30,26 +30,22 @@ export default function LogIn() {
             body: JSON.stringify({email: credentials.email, password: credentials.password})
     });
     const json = await response.json();
-
     if(json.success){
       // Save the auth token and redirect
-      localStorage.setItem('token', json.authtoken);
+      localStorage.setItem('token', json.authToken);
       navigate('/home');// Redirect to home page
+      props.showAlert("Logged in successfully", "success");
     }
     else{
-      alert("Invalid Credentials");
+      props.showAlert("Invalid Credentials", "error");
     }
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
   };
 
   const onChange = (e) => {
     setCredentials({...credentials, [e.target.name]: e.target.value})
   }
   return (
-      <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
@@ -65,6 +61,7 @@ export default function LogIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          <BasicAlert alert={props.alert}/>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
