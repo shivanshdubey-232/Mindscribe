@@ -24,5 +24,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Mindcribe is listening on port ${port}`)
+  console.log(`Mindcribe is listening !`)
 })
