@@ -15,7 +15,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/notes', require('./routes/notes'));
 
 app.get('/', (req, res) => {  
-  res.redirect('/api/notes')
+  res.redirect('/login')
 })
 //Static files
 app.use(express.static(path.join(__dirname, '/../build')));
