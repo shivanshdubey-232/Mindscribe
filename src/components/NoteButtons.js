@@ -20,7 +20,7 @@ const style = {
 };
 
 
-const iconStyle = {color: '#7391c4', margin:'1em', cursor: 'pointer'}
+const iconStyle = {color: '#7391c4', margin:'0.5em', cursor: 'pointer'}
 
 export default function NoteButtons(props) {
   const context = useContext(noteContext);
